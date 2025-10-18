@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+
+{% block content %}
+<section class="section">
+  <div class="container">
+    <h1 class="title">Geneva Auto</h1>
+    <p class="subtitle">
+      page not complete
+    </p>
+
+    <div class="buttons">
+      <a class="button is-primary">Primary Button</a>
+      <a class="button is-link">Link Button</a>
+    </div>
+
+    <div class="columns">
+      <div class="column">
+        <div class="box">
+          <h2 class="title is-5">Column 1</h2>
+          <p>car car car.</p>
+        </div>
+      </div>
+      <div class="column">
+        <div class="box">
+          <h2 class="title is-5">Column 2</h2>
+          <p>car car car.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+{% block footer %}
+<p>
+    &copy; 2025 Geneva Auto |
+    <a href="{{ url_for('login') }}">Login</a>
+</p>
+{% endblock %}

@@ -1,0 +1,42 @@
+@import "https://cdn.jsdelivr.net/npm/bulma@0.9.4/sass/utilities/_all.sass";
+@import "https://cdn.jsdelivr.net/npm/bulma@0.9.4/bulma.sass";
+body {
+  background-color: #8d7575;
+}
+
+/*# sourceMappingURL=main.css.map */
+
+
+/* Login Page */
+
+form {
+    margin: 20px auto;
+    width: 300px;
+    padding: 20px;
+    border: 2px solid #333;
+    border-radius: 10px;
+    background-color: #f0f0f0;
+}
+
+input, button {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+}
+
+footer {
+    background-color: #222;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+}
+
+footer a {
+    color: #66ccff;
+    text-decoration: none;
+    margin-left: 5px;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}

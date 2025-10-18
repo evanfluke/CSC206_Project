@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang = "en">
+    <head>
+        {% block head %}
+        <link rel="stylesheet" href={{ url_for('static', filename='css/main.css') }} />
+        <title>{% block title %}{% endblock %}</title>
+        {% endblock %}
+    </head>
+    <body>
+        <header>
+            <h2>Geneva Auto</h2>
+            <nav>
+                <a href="{{ url_for('home') }}">Home</a> |
+                <a href="{{ url_for('login') }}">Login</a> |
+                <a href="{{ url_for('buy') }}">Vehicles</a> |
+                <a href="{{ url_for('sell') }}">Reports</a>
+            </nav>
+        </header>
+
+        <div id="content">{% block content %}{% endblock %}</div>
+        <div id="footer">
+            {% block footer %}
+            <p>&copy; Copyright</p>
+            {% endblock %}
+        </div>
+    </body>
+</html>
