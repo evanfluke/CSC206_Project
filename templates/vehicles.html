@@ -19,15 +19,16 @@
     </thead>
     <tbody>
     {% for v in vehicles %}
-    <tr>
-        <td>{{ v.id }}</td>
-        <td>{{ v.make }}</td>
-        <td>{{ v.model }}</td>
-        <td>{{ v.year }}</td>
+        <tr>
+            <td>{{ v.vin }}</td>
+            <td>{{ v.manufacturer }}</td>
+            <td>{{ v.model_name }}</td>
+            <td>{{ v.model_year }}</td>
         <td>{{ v.mileage }}</td>
-        <td>${{ v.price }}</td>
+        <td>${{ v.sales_price }}</td>
     </tr>
     {% endfor %}
+
 </tbody>
 
 <!-- </table> -->

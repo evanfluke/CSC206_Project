@@ -10,7 +10,7 @@
         <!-- # {% endblock %} -->
     </head>
 
-    <body>
+    <body style="min-height: 100vh; display: flex; flex-direction: column;">
         <!-- # header -->
         <header>
            <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
@@ -43,9 +43,9 @@
                     <a class="navbar-item {% if request.endpoint == 'sell' %}is-active{% endif %}" href="{{ url_for('sell') }}">
                         Sell
                     </a>
-                    <a class="navbar-item {% if request.endpoint == 'reports' %}is-active{% endif %}" href="{{ url_for('reports') }}">
+                    <!-- <a class="navbar-item {% if request.endpoint == 'reports' %}is-active{% endif %}" href="{{ url_for('reports') }}">
                         Reports
-                    </a>
+                    </a> -->
                         <div class="navbar-item has-dropdown is hoverable">
                             <a class="navbar-link">
                                 Reports
@@ -63,17 +63,33 @@
                             </div>
                         </div>
                     </div>
+                    <div class="navbar-end">
+                        <div class="navbar-item">
+                            {% if session.username %}
+                                <span>Welcome, {{ session.username }} ({{ session.role }})</span>
+                                <a class="button is-light ml-2" href="{{ url_for('logout') }}">Logout</a>
+                            {% else %}
+                                <a class="button is-primary" href="{{ url_for('login') }}">Login</a>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
             </nav>
 
         </header>
 
-        <!--<div id="content">{% block content %}{% endblock %}</div> -->
-        <!-- footer -->
-        <div id="footer">
-            {% block footer %}
-            <p>&copy; 2025 Geneva Auto</p>
+        <div style="flex: 1">
+            {% block content %}
+
             {% endblock %}
         </div>
+        <!--<div id="content">{% block content %}{% endblock %}</div> -->
+        <!-- footer -->
+        <footer class="footer">
+            <div class="content has-text-centered">
+                <p>&copy; 2025 Geneva Auto</p>
+            </div>
+        </footer>
+
     </body>
 </html>
