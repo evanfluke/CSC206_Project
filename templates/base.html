@@ -1,26 +1,61 @@
 <!DOCTYPE html>
 <html lang = "en">
+    
     <head>
-        {% block head %}
-        <link rel="stylesheet" href={{ url_for('static', filename='css/main.css') }} />
-        <title>{% block title %}{% endblock %}</title>
-        {% endblock %}
+        <!-- # {% block head %} -->
+        <meta charset="UTF-8"> 
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+        <title>{% block title %}Geneva Auto{% endblock %}</title>
+        <!-- # {% endblock %} -->
     </head>
+
     <body>
         <header>
-            <h2>Geneva Auto</h2>
-            <nav>
-                <a href="{{ url_for('home') }}">Home</a> |
-                <a href="{{ url_for('login') }}">Login</a> |
-                <a href="{{ url_for('buy') }}">Vehicles</a> |
-                <a href="{{ url_for('sell') }}">Reports</a>
+           <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    <a class="navbar-item" href="{{ url_for('home') }}">
+                    <strong>Geneva Auto</strong>
+                    </a>
+
+                    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="mainNav">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    </a>
+                </div>
+
+                <div id="mainNav" class="navbar-menu">
+                    <div class="navbar-start">
+                    <a class="navbar-item {% if request.endpoint == 'home' %}is-active{% endif %}" href="{{ url_for('home') }}">
+                        Home
+                    </a>
+                    <a class="navbar-item {% if request.endpoint == 'login' %}is-active{% endif %}" href="{{ url_for('login') }}">
+                        Login
+                    </a>
+                    <a class="navbar-item {% if request.endpoint == 'vehicles' %}is-active{% endif %}" href="{{ url_for('vehicles') }}">
+                        Vehicles
+                    </a>
+                    <a class="navbar-item {% if request.endpoint == 'buy' %}is-active{% endif %}" href="{{ url_for('buy') }}">
+                        Buy
+                    </a>
+                    <a class="navbar-item {% if request.endpoint == 'sell' %}is-active{% endif %}" href="{{ url_for('sell') }}">
+                        Sell
+                    </a>
+                    <a class="navbar-item {% if request.endpoint == 'reports' %}is-active{% endif %}" href="{{ url_for('reports') }}">
+                        Reports
+                    </a>
+                    </div>
+                </div>
             </nav>
+
         </header>
 
         <div id="content">{% block content %}{% endblock %}</div>
+        
         <div id="footer">
             {% block footer %}
-            <p>&copy; Copyright</p>
+            <p>&copy; 2025 Geneva Auto</p>
             {% endblock %}
         </div>
     </body>
