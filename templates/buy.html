@@ -1,7 +1,59 @@
 {% extends "base.html" %}
 
+{% block title %}Buy Vehicles{% endblock %}
+
 {% block content %}
+<div class="container mt-6">
+    <h1 class="title is-3">Buy a Vehicle</h1>
+    <p class="subtitle is-5">Browse available vehicles and select one to purchase.</p>
 
-<h1 class ="title">Buy</h1>
+    <div class="columns is-multiline">
 
+        <div class="column is-one-third">
+            <div class="card">
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                        <img src="https://via.placeholder.com/400x300" alt="Car Image">
+                    </figure>
+                </div>
+                <div class="card-content">
+                    <p class="title is-5">2019 Toyota Camry</p>
+                    <p class="subtitle is-6">45,000 miles — $17,500</p>
+                    <button class="button is-info is-fullwidth mt-3">Buy</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="column is-one-third">
+            <div class="card">
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                        <img src="https://via.placeholder.com/400x300" alt="Car Image">
+                    </figure>
+                </div>
+                <div class="card-content">
+                    <p class="title is-5">2020 Honda Civic</p>
+                    <p class="subtitle is-6">30,000 miles — $18,200</p>
+                    <button class="button is-info is-fullwidth mt-3">Buy</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="column is-one-third">
+            <div class="card">
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                        <img src="https://via.placeholder.com/400x300" alt="Car Image">
+                    </figure>
+                </div>
+                <div class="card-content">
+                    <p class="title is-5">2018 Ford F-150</p>
+                    <p class="subtitle is-6">60,500 miles — $24,800</p>
+                    <button class="button is-info is-fullwidth mt-3">Buy</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
 {% endblock %}

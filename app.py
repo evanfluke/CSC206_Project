@@ -27,12 +27,34 @@ def sell():
 def reports():
     return render_template('reports.html')
 
+# Reportws Routes
+
+@app.route('/reports/sales_productivity')
+def report_sales_productivity():
+    return render_template('report_sales_productivity.html', data=[])
+
+@app.route('/reports/seller_history')
+def report_seller_history():
+    return render_template('report_seller_history.html', data=[])
+
+@app.route('/reports/part_statistics')
+def report_part_statistics():
+    return render_template('report_part_statistics.html', data=[])
+
+
 @app.route('/customers')
 def customers():
     return render_template('customers.html')
 
 @app.route('/vehicles')
 def vehicles():
+    conn = get_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM vehicles;")
+    vehicles_list = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    print(vehicles_list)
     return render_template('vehicles.html')
 
 @app.route('/vehicle_id')

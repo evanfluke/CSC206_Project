@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-<h1 class ="title">Vehicles</h1>
+<div class="container m-6">
+    <h1 class ="title is-3">Vehicles</h1>
+</div>
 
 <table class="table is-striped is-fullwidth">
     <thead>
@@ -10,15 +11,24 @@
             <th>VIN</th>
             <th>Make</th>
             <th>Model</th>
+            <th>Year</th>
+            <th>Mileage</th>
+            <th>Price</th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>1232344587</td>
-            <td>Mazda</td>
-            <td>Mazda3</td>
-        </tr>
-    </tbody>
+    {% for v in vehicles %}
+    <tr>
+        <td>{{ v.id }}</td>
+        <td>{{ v.make }}</td>
+        <td>{{ v.model }}</td>
+        <td>{{ v.year }}</td>
+        <td>{{ v.mileage }}</td>
+        <td>${{ v.price }}</td>
+    </tr>
+    {% endfor %}
+</tbody>
+
 </table>
 
 {% endblock %}

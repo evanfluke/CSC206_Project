@@ -1,5 +1,55 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block title %}Sell a Vehicle{% endblock %}
 
-{% end block %}
+{% block content %}
+<div class="container mt-6">
+    <h1 class="title is-3">Sell a Vehicle</h1>
+    <p class="subtitle is-5">Enter the details of the vehicle you want to sell.</p>
+
+    <div class="box">
+        <form>
+
+            <div class="field">
+                <label class="label">Make</label>
+                <div class="control">
+                    <input class="input" type="text" placeholder="Toyota, Ford, Honda..." required>
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Model</label>
+                <div class="control">
+                    <input class="input" type="text" placeholder="Camry, F-150, Civic..." required>
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Year</label>
+                <div class="control">
+                    <input class="input" type="number" min="1900" max="2025" required>
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Mileage</label>
+                <div class="control">
+                    <input class="input" type="number" min="0" required>
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Price</label>
+                <div class="control">
+                    <input class="input" type="number" min="0" required>
+                </div>
+            </div>
+
+            <div class="field mt-4">
+                <button class="button is-primary is-fullwidth">Submit Vehicle</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+{% endblock %}

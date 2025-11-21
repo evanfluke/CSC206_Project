@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Sales Productivity{% endblock %}
+
+{% block content %}
+<div class="container mt-6">
+    <h1 class="title is-3">Sales Productivity</h1>
+
+    <table class="table is-fullwidth is-striped">
+        <thead>
+            <tr>
+                <th>Salesperson</th>
+                <th>Vehicles Sold</th>
+                <th>Total Sales ($)</th>
+                <th>Average Sale ($)</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for row in data %}
+            <tr>
+                <td>{{ row.name }}</td>
+                <td>{{ row.count }}</td>
+                <td>{{ row.total }}</td>
+                <td>{{ row.avg }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

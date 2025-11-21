@@ -11,6 +11,7 @@
     </head>
 
     <body>
+        <!-- # header -->
         <header>
            <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
                 <div class="navbar-brand">
@@ -45,6 +46,22 @@
                     <a class="navbar-item {% if request.endpoint == 'reports' %}is-active{% endif %}" href="{{ url_for('reports') }}">
                         Reports
                     </a>
+                        <div class="navbar-item has-dropdown is hoverable">
+                            <a class="navbar-link">
+                                Reports
+                            </a>
+                            <div class="navbar-dropdown">
+                                <a class="navbar-item" href="{{ url_for('report_sales_productivity') }}">
+                                    Sales Productivity
+                                </a>
+                                <a class="navbar-item" href="{{ url_for('report_seller_history') }}">
+                                    Seller History
+                                </a>
+                                <a class="navbar-item" href="{{ url_for('report_part_statistics') }}">
+                                    Part Statisits
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </nav>
@@ -52,7 +69,7 @@
         </header>
 
         <div id="content">{% block content %}{% endblock %}</div>
-        
+        <!-- footer -->
         <div id="footer">
             {% block footer %}
             <p>&copy; 2025 Geneva Auto</p>
