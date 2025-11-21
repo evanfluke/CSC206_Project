@@ -41,6 +41,7 @@ def report_seller_history():
 def report_part_statistics():
     return render_template('report_part_statistics.html', data=[])
 
+# other routes
 
 @app.route('/customers')
 def customers():
