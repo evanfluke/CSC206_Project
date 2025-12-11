@@ -1,49 +1,12 @@
-<!DOCTYPE html>
-{% extends 'base.html' %}
-{% block title %}Geneva Auto{% endblock %}
+{% extends "base.html" %}
 
 {% block content %}
-<section class="hero is-primary is-bold">
-  <div class="hero-body">
-    <p class="title">
-      Geneva Auto
-    </p>
-  </div>
-</section>
+<div>
+  <h1>Welcome to Geneva Auto</h1>
+  <p>Browse our inventory or make a purchase today!</p>
 
-<section class="section">
-  <div class="columns">
-    
-    <div class="column">
-      <div class="card">
-        <div class="card-content">
-          <p class="title is-4">Buy Vehicles</p>
-          <p>Browse and purchase vehicles from the catalog.</p>
-          <a href="{{ url_for('buy') }}" class="button is-primary is-light mt-3">Go</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="column">
-      <div class="card">
-        <div class="card-content">
-          <p class="title is-4">Sell Vehicles</p>
-          <p>Manage inventory and post new vehicles.</p>
-          <a href="{{ url_for('sell') }}" class="button is-primary is-light mt-3">Go</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="column">
-      <div class="card">
-        <div class="card-content">
-          <p class="title is-4">Reports</p>
-          <p>Generate sales and customer reports.</p>
-          <a href="{{ url_for('reports') }}" class="button is-primary is-light mt-3">Go</a>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</section>
+  <img src="{{ url_for('static', filename='images/car.jpg') }}" 
+        alt="Geneva Auto" class="img-fluid" 
+        style="max-height: 70vh; width: auto;">
+</div>
 {% endblock %}

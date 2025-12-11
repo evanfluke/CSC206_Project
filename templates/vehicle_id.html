@@ -1,7 +1,22 @@
 {% extends "base.html" %}
-<!-- Vehicle ID page -->
-{%  block content %}
-
-<h1 class ="title">Vehicle_ID</h1>
-
+{% block content %}
+<h2>Vehicle Details</h2>
+<ul>
+    <li>VIN: {{ vehicle['VIN'] }}</li>
+    <li>Type: {{ vehicle['VehicleType'] }}</li>
+    <li>Year: {{ vehicle['ModelYear'] }}</li>
+    <li>Manufacturer: {{ vehicle['Manufacturer'] }}</li>
+    <li>Model: {{ vehicle['ModelName'] }}</li>
+    <li>Price: {{ vehicle['SalesPrice'] }}</li>
+</ul>
+<h3>Parts</h3>
+<ul>
+{% for p in parts %}
+    <li>{{ p['PartName'] }} - {{ p['Status'] }}
+        {% if session.get('role')=='Buyer' and p['Status']=='Ordered' %}
+            <a href="{{ url_for('install_part', part_id=p['PartID']) }}">Install</a>
+        {% endif %}
+    </li>
+{% endfor %}
+</ul>
 {% endblock %}

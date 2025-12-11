@@ -1,55 +1,21 @@
 {% extends "base.html" %}
-
-{% block title %}Sell a Vehicle{% endblock %}
-
 {% block content %}
-<div class="container mt-6">
-    <h1 class="title is-3">Sell a Vehicle</h1>
-    <p class="subtitle is-5">Enter the details of the vehicle you want to sell.</p>
+<h2>Sell Vehicle</h2>
 
-    <div class="box">
-        <form>
+<form method="POST">
+    <p><strong>Vehicle ID:</strong> {{ vehicle.vehicle_id }}</p>
+    <p><strong>Manufacturer:</strong> {{ vehicle.manufacturer }}</p>
+    <p><strong>Model:</strong> {{ vehicle.model }}</p>
+    <p><strong>Year:</strong> {{ vehicle.year }}</p>
+    <p><strong>Price:</strong> ${{ vehicle.price }}</p>
 
-            <div class="field">
-                <label class="label">Make</label>
-                <div class="control">
-                    <input class="input" type="text" placeholder="car" required>
-                </div>
-            </div>
+    <label for="customer_id">Select Customer:</label>
+    <select name="customer_id" id="customer_id">
+        {% for customer in fetch_all_dict('Customers') %}
+            <option value="{{ customer.customer_id }}">{{ customer.name }}</option>
+        {% endfor %}
+    </select>
 
-            <div class="field">
-                <label class="label">Model</label>
-                <div class="control">
-                    <input class="input" type="text" placeholder="car" required>
-                </div>
-            </div>
-
-            <div class="field">
-                <label class="label">Year</label>
-                <div class="control">
-                    <input class="input" type="number" min="2025" max="2025" required>
-                </div>
-            </div>
-
-            <div class="field">
-                <label class="label">Mileage</label>
-                <div class="control">
-                    <input class="input" type="number" min="0" required>
-                </div>
-            </div>
-
-            <div class="field">
-                <label class="label">Price</label>
-                <div class="control">
-                    <input class="input" type="number" min="0" required>
-                </div>
-            </div>
-
-            <div class="field mt-4">
-                <button class="button is-primary is-fullwidth">Submit Vehicle</button>
-            </div>
-
-        </form>
-    </div>
-</div>
+    <button type="submit" class="btn btn-primary mt-2">Complete Sale</button>
+</form>
 {% endblock %}

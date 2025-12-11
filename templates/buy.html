@@ -1,59 +1,22 @@
 {% extends "base.html" %}
-
-{% block title %}Buy Vehicles{% endblock %}
-
 {% block content %}
-<div class="container mt-6">
-    <h1 class="title is-3">Buy a Vehicle</h1>
-    <p class="subtitle is-5">Browse available vehicles and select one to purchase.</p>
+<h2>Buy Vehicle</h2>
 
-    <div class="columns is-multiline">
+<form method="POST">
+    <p><strong>Vehicle ID:</strong> {{ vehicle.vehicle_id }}</p>
+    <p><strong>Manufacturer:</strong> {{ vehicle.manufacturer }}</p>
+    <p><strong>Model:</strong> {{ vehicle.model }}</p>
+    <p><strong>Year:</strong> {{ vehicle.year }}</p>
+    <p><strong>Price:</strong> ${{ vehicle.price }}</p>
 
-        <div class="column is-one-third">
-            <div class="card">
-                <div class="card-image">
-                    <figure class="image is-4by3">
-                        <img src="" alt="Car Image">
-                    </figure>
-                </div>
-                <div class="card-content">
-                    <p class="title is-5">car</p>
-                    <p class="subtitle is-6">car</p>
-                    <button class="button is-info is-fullwidth mt-3">Buy</button>
-                </div>
-            </div>
-        </div>
+    <label for="customer_id">Select Customer:</label>
+    <select name="customer_id" id="customer_id">
+        {% for customer in fetch_all_dict('Customers') %}
+            <option value="{{ customer.customer_id }}">{{ customer.name }}</option>
+        {% endfor %}
+    </select>
 
-        <div class="column is-one-third">
-            <div class="card">
-                <div class="card-image">
-                    <figure class="image is-4by3">
-                        <img src="" alt="Car Image">
-                    </figure>
-                </div>
-                <div class="card-content">
-                    <p class="title is-5">car</p>
-                    <p class="subtitle is-6">car</p>
-                    <button class="button is-info is-fullwidth mt-3">Buy</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="column is-one-third">
-            <div class="card">
-                <div class="card-image">
-                    <figure class="image is-4by3">
-                        <img src="" alt="Car Image">
-                    </figure>
-                </div>
-                <div class="card-content">
-                    <p class="title is-5">2018 Ford F-150</p>
-                    <p class="subtitle is-6">60,500 miles — $24,800</p>
-                    <button class="button is-info is-fullwidth mt-3">Buy</button>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
+    <button type="submit" class="btn btn-success mt-2">Complete Purchase</button>
+</form>
 {% endblock %}
+

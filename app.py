@@ -1,155 +1,108 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, flash, session
+from db import fetch_all_dict, execute_query
+
 app = Flask(__name__)
-
-from db import get_connection
-
-#mysql = MySQL(app)
-
-#from flask_mysqldb import MySQL
-#import MySQLdb.cursors 
-#import sys
-#import layout as lay
-
-#app.config['MYSQL_HOST'] = 'localhost'
-#app.config['MYSQL_USER'] = 'geneva'
-#app.config['MYSQL_PASSWORD'] = 'Password'
-#app.config['MYSQL_DB'] = 'csc206cars'
-
-@app.context_processor
-def inject_request():
-    return dict(request=request)
+app.secret_key = 'secretkey'
 
 @app.route('/')
-def index():
-    return render_template('home.html', request=request)
-
-@app.route('/home')
 def home():
-    return render_template('home.html', request=request)
+    return render_template('home.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    error = None
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-
-        conn = get_connection()
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM users WHERE username=%s AND password=%s", (username, password))
-        user = cursor.fetchone()
-        cursor.close()
-        conn.close()
-
-        if user:
-            session['username'] = user['username']
-            session['role'] = user['role']
-            return redirect(url_for('home'))
-        else:
-            error = "Wrong username or password, please try again."
-
-    return render_template('login.html', request=request)
+        users = fetch_all_dict('Users')
+        for user in users:
+            if user['username'] == username and user['password'] == password:
+                session['user'] = username
+                session['role'] = user['role']
+                flash(f"Logged in as {username}", "success")
+                return redirect(url_for('home'))
+        flash("Invalid credentials", "danger")
+    return render_template('login.html')
 
 @app.route('/logout')
 def logout():
     session.clear()
+    flash("Logged out", "info")
     return redirect(url_for('home'))
 
-@app.route('/buy')
-def buy():
-    return render_template('buy.html', request=request)
+@app.route('/inventory', methods=['GET', 'POST'])
+def inventory():
+    vehicles = fetch_all_dict("Vehicles")
+    filtered = vehicles
 
-@app.route('/sell')
-def sell():
-    return render_template('sell.html', request=request)
+    if request.method == 'POST':
+        vehicle_type = request.form.get('vehicle_type', '').lower()
+        manufacturer = request.form.get('manufacturer', '').lower()
+        model_year = request.form.get('model_year', '')
+        color = request.form.get('color', '').lower()
 
-@app.route('/reports')
-def reports():
-    return render_template('reports.html', request=request)
+        def matches(vehicle):
+            if vehicle_type and vehicle_type not in vehicle['vehicle_type'].lower():
+                return False
+            if manufacturer and manufacturer not in vehicle['manufacturer'].lower():
+                return False
+            if model_year and str(vehicle['model_year']) != model_year:
+                return False
+            if color and color not in vehicle['color'].lower():
+                return False
+            return True
 
-# Reportws Routes
+        filtered = [v for v in vehicles if matches(v)]
 
-@app.route('/reports/sales_productivity')
-def report_sales_productivity():
-    return render_template('report_sales_productivity.html', data=[])
+    return render_template('inventory.html', vehicles=filtered)
 
-@app.route('/reports/seller_history')
-def report_seller_history():
-    return render_template('report_seller_history.html', data=[])
+@app.route('/buy/<vin>', methods=['GET', 'POST'])
+def buy(vehicle_id):
+    vehicles = fetch_all_dict('Vehicles')
+    vehicle = next((v for v in vehicles if v['vin'] == vehicle_id), None)
+    if not vehicle:
+        flash("Vehicle not found", "danger")
+        return redirect(url_for('inventory'))
 
-@app.route('/reports/part_statistics')
-def report_part_statistics():
-    return render_template('report_part_statistics.html', data=[])
+    if request.method == 'POST':
+        customer_id = request.form['customer_id']
+        purchase_price = request.form['purchase_price']
+        try:
+            execute_query(
+                "UPDATE Vehicles SET customer_id=%s, status='Purchased', purchase_price=%s WHERE vehicle_id=%s",
+                (customer_id, purchase_price, vehicle_id)
+            )
+            flash(f"Vehicle {vehicle_id} purchased by customer {customer_id}!", "success")
+        except Exception as e:
+            flash(f"Error purchasing vehicle: {str(e)}", "danger")
+        return redirect(url_for('inventory'))
 
-# other routes
+    return render_template('buy.html', vehicle=vehicle)
 
-@app.route('/customers')
-def customers():
-    return render_template('customers.html', request=request)
 
-#@app.route('/vehicles')
-#def vehicles():
-    # conn = get_connection()
-    # cursor = conn.cursor(dictionary=True)
-    #cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    #cursor.execute("SELECT * FROM vehicles;")
-    #vehicles_list = cursor.fetchall()
-    #cursor.close()
-    # conn.close()
-    #print(vehicles_list)
-    #return render_template('vehicles.html', vehicles=vehicles_list)
-    #conn = get_connection()
-    #cursor = conn.cursor(dictionary=True)
-    #cursor.execute("SELECT * FROM vehicles;")
-    #vehicles_list = cursor.fetchall()
-    #cursor.close()
-    #conn.close()
-    #print(vehicles_list)
-    #return render_template('vehicles.html')
 
-@app.route('/vehicles')
-def vehicles():
-    conn = get_connection()
-    if not conn:
-        return "Database connection failed"
+@app.route('/sell/<vin>', methods=['GET', 'POST'])
+def sell(vehicle_id):
+    vehicles = fetch_all_dict('Vehicles')
+    vehicle = next((v for v in vehicles if v['vin'] == vehicle_id), None)
+    if not vehicle:
+        flash("Vehicle not found", "danger")
+        return redirect(url_for('inventory'))
 
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM vehicles;")
-    vehicles_list = cursor.fetchall()
-    cursor.close()
-    conn.close()
+    if request.method == 'POST':
+        customer_id = request.form['customer_id']
+        sale_price = request.form['sale_price']
+        try:
+            execute_query(
+                "UPDATE Vehicles SET customer_id=%s, status='Sold', sale_price=%s WHERE vehicle_id=%s",
+                (customer_id, sale_price, vehicle_id)
+            )
+            flash(f"Vehicle {vehicle_id} sold to customer {customer_id}!", "success")
+        except Exception as e:
+            flash(f"Error selling vehicle: {str(e)}", "danger")
+        return redirect(url_for('inventory'))
 
-    return render_template('vehicles.html', vehicles=vehicles_list, request=request)
+    return render_template('sell.html', vehicle=vehicle)
 
-@app.route('/vehicle_id')
-def vehicle_id():
-    return render_template('vehicle_id.html', request=request)
-
-# test routes
-
-@app.route('/test_db')
-def test_db():
-    conn = get_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM vehicle LIMIT 1")
-    row = cursor.fetchone()
-    cursor.close()
-    conn.close()
-    return str(row)
-
-@app.route('/test')
-def test():
-    return render_template('test.html')
-
-@app.route("/dbtest")
-def dbtest():
-    from db import get_db_connection
-    conn = get_db_connection()
-    cur = conn.cursor()
-    cur.execute("SHOW TABLES;")
-    tables = cur.fetchall()
-    conn.close()
-    return {"tables": tables}
 
 
 if __name__ == '__main__':

@@ -1,13 +1,10 @@
-// 1. Import Bulma
 @import "https://cdn.jsdelivr.net/npm/bulma@0.9.4/sass/utilities/_all.sass";
 @import "https://cdn.jsdelivr.net/npm/bulma@0.9.4/bulma.sass";
 
-// 2. Customize Bulma variables (do this BEFORE importing bulma if overriding)
-$primary: #4ae27d; // custom main color
-$link: #3881ff; // link color
+$primary: #4ae27d;
+$link: #3881ff;
 $family-sans-serif: "Segoe UI", "Roboto", sans-serif;
 
-// 3. Add your own styles
 body {
   background-color: #8d7575;
 }

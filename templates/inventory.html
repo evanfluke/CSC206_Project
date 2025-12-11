@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Vehicle Inventory</h2>
+
+<form method="POST" class="row g-3 mb-4">
+    <div class="col-md-3">
+        <input type="text" name="vehicle_type" class="form-control" placeholder="Vehicle Type">
+    </div>
+    <div class="col-md-3">
+        <input type="text" name="manufacturer" class="form-control" placeholder="Manufacturer">
+    </div>
+    <div class="col-md-2">
+        <input type="text" name="model_year" class="form-control" placeholder="Model Year">
+    </div>
+    <div class="col-md-2">
+        <input type="text" name="color" class="form-control" placeholder="Color">
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-primary w-100">Search</button>
+    </div>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>VIN</th>
+            <th>Type</th>
+            <th>Year</th>
+            <th>Manufacturer</th>
+            <th>Model</th>
+            <th>Color</th>
+            <th>Sales Price</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for vehicle in vehicles %}
+        <tr>
+            <td>{{ vehicle.vin }}</td>
+            <td>{{ vehicle.vehicle_type }}</td>
+            <td>{{ vehicle.model_year }}</td>
+            <td>{{ vehicle.manufacturer }}</td>
+            <td>{{ vehicle.model_name }}</td>
+            <td>{{ vehicle.color }}</td>
+            <td>${{ vehicle.sales_price }}</td>
+            <td>
+                {% if session.get('role') == 'Salesperson' or session.get('role') == 'Owner' %}
+                    <a class="btn btn-sm btn-success" href="{{ url_for('sell', vin=vehicle.vin) }}">Sell</a>
+                {% endif %}
+                {% if session.get('role') == 'Buyer' or session.get('role') == 'Owner' %}
+                    <a class="btn btn-sm btn-primary" href="{{ url_for('buy', vin=vehicle.vin) }}">Buy</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
